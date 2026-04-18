@@ -1,38 +1,49 @@
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { Component } from "react";
 
 class App extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
-			nome: '',
-			input: '',
+			textoFrase: '',
+			img: require('./src/assets/biscoito.png')
 		};
 
-		this.entrar = this.entrar.bind(this);
-	};
+		this.quebraBiscoito = this.quebraBiscoito.bind(this);
 
-	entrar() {
-		if (this.state.input === '') {
-			alert("Digite seu nome!");
-			return;
-		};
+		this.frases = [
+			"A vida é um caos aleatório, ordenada pelo tempo",
+			"Se podes olhar, vê. Se podes ver, repara",
+			"A riqueza não consiste em ter grandes posses, mas em ter poucas necessidades",
+			"Três regras: não prometa nada quando estiver feliz; não responda nada quando estiver irritado; não decida nada quando estiver triste",
+		]
+	}
 
-		this.setState({ nome: "Bem vindo: " + this.state.input })
+	quebraBiscoito() {
+		let random = Math.floor(Math.random() * this.frases.length)
+
+		this.setState({
+			textoFrase: '" ' + this.frases[random] + ' "',
+			img: require('./src/assets/biscoitoAberto.png')
+		})
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<TextInput style={styles.input}
-					onChangeText={(texto) => this.setState({ input: texto })} 
-					underlineColorAndroid="transparent" 
-					placeholder="Digite seu nome"
+
+				<Image style={styles.img}
+					source={this.state.img}
 				/>
 
-				<Button title="Entrar" onPress={this.entrar} />
+				<Text style={styles.textoFrase}>{this.state.textoFrase}</Text>
 
-				<Text style={styles.texto}>{this.state.nome}</Text>
+				<TouchableOpacity style={styles.botao} onPress={this.quebraBiscoito}>
+					<View style={styles.btnArea}>
+						<Text style={styles.btnTexto}>Abrir biscoito</Text>
+					</View>
+				</TouchableOpacity>
+
 			</View>
 		)
 	}
@@ -41,20 +52,43 @@ class App extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		paddingTop: 20,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 
-	input: {
-		height: 45,
-		borderWidth: 1,
-		borderColor: '#222',
-		margin: 10,
-		padding: 10,
+	img: {
+		width: 250,
+		height: 250,
+	},
+
+	textoFrase: {
 		fontSize: 20,
+		color: '#db7b22',
+		margin: 30,
+		fontStyle: 'italic',
+		textAlign: 'center'
 	},
 
-	texto: {
-		textAlign: 'center',
-		fontSize: 25,
+	botao: {
+		width: 230,
+		height: 50,
+		borderWidth: 2,
+		borderColor: '#dd7b22',
+		borderRadius: 24,
+	},
+
+	btnArea: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+
+	btnTexto: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		color: '#dd7b22'
 	}
 });
 
